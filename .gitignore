@@ -8,3 +8,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+# Ignore PHPStorm specific directory
+/.idea
