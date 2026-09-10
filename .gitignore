@@ -11,3 +11,8 @@
 
 # Ignore PHPStorm specific directory
 /.idea
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
