@@ -12,7 +12,7 @@ class FizzBuzzGenerator implements FizzBuzzGeneratorInterface
      */
     public function generate(int $int1, int $int2, int $limit, string $str1, string $str2)
     {
-        return array_map(fn($listItem) => $this->transform($listItem, $int1, $int2, $str1, $str2), range(1, $limit));
+        return array_values(array_map(fn($listItem) => $this->transform($listItem, $int1, $int2, $str1, $str2), range(1, $limit)));
     }
 
     /**
