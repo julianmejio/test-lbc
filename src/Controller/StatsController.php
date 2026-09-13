@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Stats\UrlStatsStore;
+use App\Stats\UrlStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class StatsController extends AbstractController
 {
     public function __construct(
-        private readonly UrlStatsStore $statsStore,
+        private readonly UrlStats $stats,
         private readonly SerializerInterface $serializer,
     ) {
     }
@@ -24,7 +24,7 @@ final class StatsController extends AbstractController
      */
     public function __invoke(): Response
     {
-        $stats = $this->statsStore->getMostPopularUrl();
+        $stats = $this->stats->getMostPopularUrl();
         if (null === $stats) {
             return new JsonResponse(null, Response::HTTP_OK);
         }
