@@ -9,7 +9,7 @@ final readonly class MostPopularUrlResponseDto
     public function __construct(
         #[Assert\NotBlank()]
         public string $url,
-        #[Assert\Type('numeric')]
+        #[Assert\Type('integer')]
         public int $hits,
     ) {
     }
