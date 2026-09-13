@@ -1,15 +1,15 @@
 <?php
 
-namespace App\EventSubscriber;
+namespace App\FizzBuzz\EventSubscriber;
 
-use App\Event\FizzBuzzListGeneratedEvent;
+use App\FizzBuzz\Event\FizzBuzzListGeneratedEvent;
 use App\Stats\UrlStatsStore;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class FizzBuzzListEventSubscriber implements EventSubscriberInterface
+readonly class FizzBuzzListEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly UrlStatsStore $stats, private readonly LoggerInterface $logger)
+    public function __construct(private UrlStatsStore $stats, private LoggerInterface $logger)
     {
     }
 
