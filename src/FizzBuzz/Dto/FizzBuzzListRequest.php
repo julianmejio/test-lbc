@@ -20,19 +20,19 @@ readonly class FizzBuzzListRequest
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str1')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
         #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
-        private int $int1,
+        public readonly int $int1,
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str2')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
         #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
-        private int $int2,
+        public readonly int $int2,
         #[Assert\NotBlank(message: 'Provide the max number to generate in the list')]
         #[Assert\GreaterThanOrEqual(1, message: 'This number must be greater than 1')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
-        private int $limit,
+        public readonly int $limit,
         #[Assert\NotBlank(message: 'Provide a string that replaces the multiples of int1')]
-        private string $str1,
+        public readonly string $str1,
         #[Assert\NotBlank(message: 'Provide a string that replaces the multiples of str2')]
-        private string $str2,
+        public readonly string $str2,
     ) {
     }
 
