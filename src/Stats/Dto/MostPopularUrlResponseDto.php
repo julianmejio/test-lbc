@@ -4,13 +4,13 @@ namespace App\Stats\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class MostPopularUrlResponse
+final readonly class MostPopularUrlResponseDto
 {
     public function __construct(
         #[Assert\NotBlank()]
-        public readonly string $url,
+        public string $url,
         #[Assert\Type('numeric')]
-        public readonly int $hits,
+        public int $hits,
     ) {
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Event\FizzBuzzListGeneratedEvent;
-use App\FizzBuzz\Dto\FizzBuzzListRequest;
+use App\FizzBuzz\Dto\FizzBuzzListRequestDto;
 use App\FizzBuzz\FizzBuzzGeneratorInterface;
 use App\FizzBuzz\FizzBuzzSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +39,7 @@ final class GetFizzBuzzController extends AbstractController
             serializationContext: [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false],
             validationFailedStatusCode: Response::HTTP_BAD_REQUEST,
         )]
-        FizzBuzzListRequest $parameters,
+        FizzBuzzListRequestDto $parameters,
         Request $request,
     ): Response {
         $list = $this->fizzBuzzGenerator->generate(

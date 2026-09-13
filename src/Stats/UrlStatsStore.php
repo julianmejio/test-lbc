@@ -2,7 +2,7 @@
 
 namespace App\Stats;
 
-use App\Stats\Dto\MostPopularUrlResponse;
+use App\Stats\Dto\MostPopularUrlResponseDto;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
@@ -30,7 +30,7 @@ class UrlStatsStore
         $this->saveStoreContents($stats);
     }
 
-    public function getMostPopularUrl(?string $prefix = null): ?MostPopularUrlResponse
+    public function getMostPopularUrl(?string $prefix = null): ?MostPopularUrlResponseDto
     {
         $stats = $this->getStoreContents();
         if (0 >= count($stats)) {
@@ -39,7 +39,7 @@ class UrlStatsStore
         usort($stats, fn ($url1, $url2) => $url2[1] - $url1[1]);
         $mostPopular = $stats[0];
 
-        return new MostPopularUrlResponse($mostPopular[0], $mostPopular[1]);
+        return new MostPopularUrlResponseDto($mostPopular[0], $mostPopular[1]);
     }
 
     /**

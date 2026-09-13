@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * List valid parameters accepted for the generation of the FizzBuzz list generation.
  */
-readonly class FizzBuzzListRequest
+readonly class FizzBuzzListRequestDto
 {
     /**
      * @param int    $int1  number whose multiples are replaced by {@see FizzBuzzListRequest::$str1}
@@ -20,19 +20,19 @@ readonly class FizzBuzzListRequest
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str1')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
         #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
-        public readonly int $int1,
+        public int $int1,
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str2')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
         #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
-        public readonly int $int2,
+        public int $int2,
         #[Assert\NotBlank(message: 'Provide the max number to generate in the list')]
         #[Assert\GreaterThanOrEqual(1, message: 'This number must be greater than 1')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
-        public readonly int $limit,
+        public int $limit,
         #[Assert\NotBlank(message: 'Provide a string that replaces the multiples of int1')]
-        public readonly string $str1,
+        public string $str1,
         #[Assert\NotBlank(message: 'Provide a string that replaces the multiples of str2')]
-        public readonly string $str2,
+        public string $str2,
     ) {
     }
 
