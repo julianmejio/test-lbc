@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Event;
+namespace App\FizzBuzz\Event;
 
 use App\FizzBuzz\Dto\FizzBuzzListRequestDto;
 use Symfony\Contracts\EventDispatcher\Event;

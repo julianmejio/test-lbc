@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Event\FizzBuzzListGeneratedEvent;
 use App\FizzBuzz\Dto\FizzBuzzListRequestDto;
+use App\FizzBuzz\Event\FizzBuzzListGeneratedEvent;
 use App\FizzBuzz\FizzBuzzGeneratorInterface;
 use App\FizzBuzz\FizzBuzzSerializer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
