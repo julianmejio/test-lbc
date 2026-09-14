@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    environment:
+        APP_ENV: prod
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "${PORT}:80"
+    volumes_from:
+      - app
+    volumes:
+      - ./docker/nginx/proxy.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
