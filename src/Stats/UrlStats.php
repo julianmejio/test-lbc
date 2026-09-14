@@ -37,4 +37,9 @@ class UrlStats
 
         return new MostPopularUrlResponseDto($popularUrl, $stats[$popularUrl]);
     }
+
+    public function reset(): void
+    {
+        $this->keyValueRepository->clear(self::STATS_ID);
+    }
 }

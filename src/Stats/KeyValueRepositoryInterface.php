@@ -29,4 +29,6 @@ interface KeyValueRepositoryInterface
     public function set(string $storeId, mixed $key, mixed $value): KeyValueRepositoryInterface;
 
     public function commit(string $storeId): void;
+
+    public function clear(string $storeId): void;
 }
