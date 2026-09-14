@@ -3,8 +3,6 @@
 - `FizzBuzzListResponse` for the response (list)
 
 Remaining points:
-* e2e test
-
 * containerization
 
 * documentation (readme)

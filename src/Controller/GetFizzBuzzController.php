@@ -48,7 +48,7 @@ final class GetFizzBuzzController extends AbstractController
             $parameters->getStr1(),
             $parameters->getStr2(),
         );
-        $requestedFormat = $request->getAcceptableContentTypes()[0];
+        $requestedFormat = $request->getAcceptableContentTypes()[0] ?? 'text/plain';
         $this->eventDispatcher->dispatch(new FizzBuzzListGeneratedEvent($parameters, $request->getPathInfo()), FizzBuzzListGeneratedEvent::NAME);
 
         return new Response(
