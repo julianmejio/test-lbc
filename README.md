@@ -3,9 +3,6 @@
 - `FizzBuzzListResponse` for the response (list)
 
 Remaining points:
-* Handler exception
-    * Specific errors for FizzBuzz edge cases
-
 * e2e test
 
 * containerization
@@ -13,3 +10,8 @@ Remaining points:
 * documentation (readme)
 
 * github actions
+
+===
+
+## Refinement after must-have tasks
+* Error handler
