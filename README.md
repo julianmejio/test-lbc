@@ -3,8 +3,6 @@
 - `FizzBuzzListResponse` for the response (list)
 
 Remaining points:
-* containerization
-
 * documentation (readme)
 
 * github actions
