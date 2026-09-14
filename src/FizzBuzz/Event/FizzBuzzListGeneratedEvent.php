@@ -11,11 +11,17 @@ final class FizzBuzzListGeneratedEvent extends Event
 
     public function __construct(
         private readonly FizzBuzzListRequestDto $parameters,
+        private readonly ?string $endpoint = null,
     ) {
     }
 
     public function getParameters(): FizzBuzzListRequestDto
     {
         return $this->parameters;
+    }
+
+    public function getEndpoint(): ?string
+    {
+        return $this->endpoint;
     }
 }

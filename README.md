@@ -3,9 +3,6 @@
 - `FizzBuzzListResponse` for the response (list)
 
 Remaining points:
-* Refine stats
-    * Can retrieve the endpoint?
-
 * Handler exception
     * Specific errors for FizzBuzz edge cases
 

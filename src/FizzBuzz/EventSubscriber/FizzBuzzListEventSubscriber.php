@@ -23,7 +23,11 @@ readonly class FizzBuzzListEventSubscriber implements EventSubscriberInterface
     public function handleFizzBuzzListGeneratedEvent(FizzBuzzListGeneratedEvent $event): void
     {
         $this->logger->info('Vars', get_object_vars($event->getParameters()));
-        $url = '/'.http_build_query(get_object_vars($event->getParameters()));
+        $url = sprintf(
+            '%s?%s',
+            $event->getEndpoint() ?? '/',
+            http_build_query(get_object_vars($event->getParameters()))
+        );
         $this->stats->hitUrl($url);
     }
 }
