@@ -37,7 +37,6 @@ final class GetFizzBuzzController extends AbstractController
     public function __invoke(
         #[MapQueryString(
             serializationContext: [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false],
-            validationFailedStatusCode: Response::HTTP_BAD_REQUEST,
         )]
         FizzBuzzListRequestDto $parameters,
         Request $request,
