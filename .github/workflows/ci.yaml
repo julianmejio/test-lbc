@@ -1,0 +1,100 @@
+name: FizzBuzz CI
+on:
+    push:
+
+jobs:
+    setup:
+        name: Setup environment
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-versions: [ '8.4', '8.5' ]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-versions: ${{ matrix.php-versions }}
+                  extensions: mbstring
+            - name: Check composer
+              run: composer validate
+            - name: Cache vendor packages
+              id: composer-cache
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-php${{ matrix.php-versions }}
+            - name: Install vendor packages
+              run: composer install --no-interaction --optimize-autoloader
+
+    phpcsfixer:
+        name: Check code style
+        runs-on: ubuntu-latest
+        needs: setup
+        strategy:
+            matrix:
+                php-versions: [ '8.4', '8.5' ]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-versions: ${{ matrix.php-versions }}
+                  extensions: mbstring
+            - name: Retrieve cached packages
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+            - name: Check code style
+              run: ./vendor/bin/php-cs-fixer fix --dry-run
+
+    phpstan:
+        name: Scan for potential bugs
+        runs-on: ubuntu-latest
+        needs: setup
+        strategy:
+            matrix:
+                php-versions: ['8.4', '8.5']
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-versions: ${{ matrix.php-versions }}
+                  extensions: mbstring
+            - name: Retrieve cached packages
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+            - name: Scan for potential bugs
+              run: ./vendor/bin/phpstan analyse
+
+    tests:
+        name: Run test suite
+        runs-on: ubuntu-latest
+        needs: setup
+        strategy:
+            matrix:
+                php-versions: ['8.4', '8.5']
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-versions: ${{ matrix.php-versions }}
+                  extensions: mbstring
+            - name: Retrieve cached packages
+              uses: actions/cache@v4
+              with:
+                  path: vendor
+                  key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+            - name: Run test suite
+              run: bin/phpunit

@@ -1,0 +1,9 @@
+parameters:
+    level: 8
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+    ignoreErrors:
+        - '#Method App\\Kernel::getAllowedEnvs\(\) is unused\.#'
