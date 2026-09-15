@@ -5,7 +5,7 @@ namespace App\FizzBuzz\Dto;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * List valid parameters accepted for the generation of the FizzBuzz list generation.
+ * List of valid parameters accepted for the generation of the FizzBuzz list generation.
  */
 readonly class FizzBuzzListRequestDto
 {
@@ -26,7 +26,7 @@ readonly class FizzBuzzListRequestDto
         #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
         public int $int2,
         #[Assert\NotBlank(message: 'Provide the max number to generate in the list')]
-        #[Assert\GreaterThanOrEqual(1, message: 'This number must be greater than 1')]
+        #[Assert\Range(notInRangeMessage: 'Provide a number between 1 and 100,000. Greater lists are not possible', min: 1, max: 100_000)]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
         public int $limit,
         #[Assert\NotBlank(message: 'Provide a string that replaces the multiples of int1')]

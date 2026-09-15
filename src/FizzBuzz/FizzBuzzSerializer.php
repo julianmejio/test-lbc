@@ -4,6 +4,9 @@ namespace App\FizzBuzz;
 
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * Serializes arrays into list-compatible structures for REST API.
+ */
 class FizzBuzzSerializer implements SerializerInterface
 {
     /**

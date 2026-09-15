@@ -51,7 +51,7 @@ jobs:
                   path: vendor
                   key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
             - name: Check code style
-              run: ./vendor/bin/php-cs-fixer fix
+              run: ./vendor/bin/php-cs-fixer fix --dry-run
 
     phpstan:
         name: Scan for potential bugs
@@ -74,7 +74,7 @@ jobs:
                   path: vendor
                   key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
             - name: Scan for potential bugs
-              run: ./vendor/bin/phpstan analyse src
+              run: ./vendor/bin/phpstan analyse
 
     tests:
         name: Run test suite

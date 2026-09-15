@@ -5,6 +5,5 @@ parameters:
         - config/
         - public/
         - src/
-        - tests/
     ignoreErrors:
         - '#Method App\\Kernel::getAllowedEnvs\(\) is unused\.#'

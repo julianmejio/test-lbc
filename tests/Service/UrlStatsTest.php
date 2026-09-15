@@ -41,6 +41,14 @@ class UrlStatsTest extends KernelTestCase
         $this->assertEquals($expected, $result);
     }
 
+    public function testNoStatsYet(): void
+    {
+        $expected = null;
+        $result = static::$urlStats->getMostPopularUrl();
+
+        $this->assertEquals($expected, $result);
+    }
+
     public static function hitUrlDataProvider(): array
     {
         return [

@@ -48,7 +48,10 @@ final class GetFizzBuzzController extends AbstractController
             $parameters->getStr1(),
             $parameters->getStr2(),
         );
+
+        // In case that no `Accept` header is present, it falls back to *text/plain*.
         $requestedFormat = $request->getAcceptableContentTypes()[0] ?? 'text/plain';
+
         $this->eventDispatcher->dispatch(new FizzBuzzListGeneratedEvent($parameters, $request->getPathInfo()), FizzBuzzListGeneratedEvent::NAME);
 
         return new Response(
@@ -58,10 +61,19 @@ final class GetFizzBuzzController extends AbstractController
         );
     }
 
+    /**
+     * Gives a serialization format according to the MIME-type value of the `Accept` header.
+     *
+     * If no `Accept` MIME type is supported, it falls back to *csv*.
+     *
+     * @param string $acceptHeader MIME type of the `Accept` header
+     *
+     * @return string returns a supported serialization type for transforming the array given by {@see FizzBuzzGeneratorInterface}
+     */
     private function getOutputFormat(string $acceptHeader): string
     {
-        return match (true) {
-            'application/json' === $acceptHeader => 'json',
+        return match ($acceptHeader) {
+            'application/json' => 'json',
             default => 'csv',
         };
     }
