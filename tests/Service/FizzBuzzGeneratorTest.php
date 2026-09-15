@@ -37,14 +37,22 @@ class FizzBuzzGeneratorTest extends KernelTestCase
         self::$fizzBuzzGenerator->generate(1, 10, 1000000000000, 'A', 'B');
     }
 
-    public function testZeroOrNegativeDivisors(): void
+    #[DataProvider('edgeMathDataProvider')]
+    public function testZeroOrNegativeDivisors(int $int1, int $int2): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        self::$fizzBuzzGenerator->generate(0, 10, 100, 'A', 'B');
-        self::$fizzBuzzGenerator->generate(-19, 10, 100, 'A', 'B');
-        self::$fizzBuzzGenerator->generate(-19, 0, 100, 'A', 'B');
-        self::$fizzBuzzGenerator->generate(-19, -19, 100, 'A', 'B');
-        self::$fizzBuzzGenerator->generate(10, -19, 100, 'A', 'B');
+        self::$fizzBuzzGenerator->generate($int1, $int2, 100, 'A', 'B');
+    }
+
+    public static function edgeMathDataProvider(): array
+    {
+        return [
+            [0, 10],
+            [-19, 10],
+            [10, -19],
+            [-19, -19],
+            [10, 0],
+        ];
     }
 
     public static function generateListDataProvider(): array
