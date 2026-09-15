@@ -20,7 +20,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * Exposes the endpoint that returns a fizzbuzz list given the specific parameters.
  */
-#[Route('/fizzbuzz', name: 'fizzbuzz')]
+#[Route('/fizzbuzz', name: 'fizzbuzz', methods: ['GET'])]
 final class GetFizzBuzzController extends AbstractController
 {
     public function __construct(

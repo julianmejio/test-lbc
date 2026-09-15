@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Controller that exposes the stats of the API's FizzBuzz endpoint.
  */
-#[Route('/stats', name: 'stats')]
+#[Route('/stats', name: 'stats', methods: ['GET'])]
 final class StatsController extends AbstractController
 {
     public function __construct(
