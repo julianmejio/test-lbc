@@ -44,11 +44,7 @@ cd julianmejio-lbc-fizzbuzz
 ```
 
 By default, docker will expose the HTTP API on the port 8000.
-To change it, copy `.env` to `.env.local`and change the port in the variable `DOCKER_HTTP_PORT`.
-
-```shell
-cp  .env .env.local
-```
+To change it, open `.env` and change the port in the variable `DOCKER_HTTP_PORT`.
 
 ### Additional steps for manual installation
 
@@ -163,8 +159,7 @@ curl -H "Accept: application/json" "http://localhost:8000/fizzbuzz?int1=3&int2=6
 Use a manual installation to run the test suite
 
 ```bash
-# With coverage report (requires Xdebug or PCOV)
-php bin/phpunit tests
+php bin/phpunit
 ```
 
 ---
