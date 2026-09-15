@@ -13,17 +13,12 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 #[AsEventListener(event: KernelEvents::EXCEPTION, method: 'onKernelException')]
-class ExceptionListener
+readonly class ExceptionListener
 {
-    public function __construct(private readonly LoggerInterface $logger)
+    public function __construct(private LoggerInterface $logger)
     {
     }
 
-    /**
-     * Handles exception and converts them into JSON-compatible messages with proper HTTP status codes.
-     *
-     * @param ExceptionEvent $event exception thrown by the kernel
-     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
@@ -33,35 +28,36 @@ class ExceptionListener
             return;
         }
         $this->handleHttpException($event);
-
     }
 
     private function handleNonHttpException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $exceptionClass = $exception::class;
-        match($exceptionClass) {
-            \OverflowException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST)),
-            \ValueError::class => $event->setResponse(new JsonResponse(['error' => 'Input numbers cannot be processed because it could go beyond maximum computational allowance'], Response::HTTP_BAD_REQUEST)),
-            default => $this->onUnexpectedError($event, $exception, $exceptionClass),
+
+        match (true) {
+            $exception instanceof \OverflowException => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST)),
+            $exception instanceof \ValueError => $event->setResponse(new JsonResponse(['error' => 'Input numbers cannot be processed because it could go beyond maximum computational allowance'], Response::HTTP_BAD_REQUEST)),
+            $exception instanceof ResourceNotFoundException => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND)),
+            default => $this->onUnexpectedError($event, $exception, $exception::class),
         };
     }
 
     private function handleHttpException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
+        if (!$exception instanceof HttpException) {
+            return;
+        }
+
         $previous = $exception->getPrevious();
-        if (null === $previous) {
-            $event->setResponse(new JsonResponse(['error' => 'An error has been occurred'], Response::HTTP_INTERNAL_SERVER_ERROR));
+
+        if ($previous instanceof ValidationFailedException) {
+            $event->setResponse($this->onValidationError($previous));
 
             return;
         }
 
-        match ($previous::class) {
-            ValidationFailedException::class => $event->setResponse($this->onValidationError($previous)),
-            ResourceNotFoundException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage(), 'class' => $exception::class], Response::HTTP_NOT_FOUND)),
-            default => $this->onUnexpectedError($event, $previous, $previous::class),
-        };
+        $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], $exception->getStatusCode()));
     }
 
     private function onValidationError(ValidationFailedException $e): JsonResponse
