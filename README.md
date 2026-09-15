@@ -1,6 +1,6 @@
 # FizzBuzz REST API
 
-A brief one-line description of what this project does.
+This project has the intention of solving a fizzbuzz challenge described in a take home test, which exposes the endpoint to generate a fizzbuzz list given a set of parameters.
 
 ---
 
