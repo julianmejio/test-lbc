@@ -74,7 +74,7 @@ jobs:
                   path: vendor
                   key: ${{ runner.os }}-php${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
             - name: Scan for potential bugs
-              run: ./vendor/bin/php-cs-fixer fix
+              run: ./vendor/bin/phpstan analyse src
 
     tests:
         name: Run test suite
