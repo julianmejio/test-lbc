@@ -19,11 +19,11 @@ readonly class FizzBuzzListRequestDto
     public function __construct(
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str1')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
-        #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
+        #[Assert\GreaterThan(0, message: 'This value must be greater than 0')]
         public int $int1,
         #[Assert\NotBlank(message: 'Provide a number where multiples will be replaced by str2')]
         #[Assert\Type('integer', message: 'Provide a valid integer')]
-        #[Assert\GreaterThan(0, message: 'This value must be grater than 0')]
+        #[Assert\GreaterThan(0, message: 'This value must be greater than 0')]
         public int $int2,
         #[Assert\NotBlank(message: 'Provide the max number to generate in the list')]
         #[Assert\Range(notInRangeMessage: 'Provide a number between 1 and 100,000. Greater lists are not possible', min: 1, max: 100_000)]
