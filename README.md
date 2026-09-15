@@ -5,8 +5,6 @@
 Remaining points:
 * documentation (readme)
 
-* github actions
-
 ===
 
 ## Refinement after must-have tasks
