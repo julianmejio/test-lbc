@@ -28,10 +28,28 @@ class ExceptionListener
     {
         $exception = $event->getThrowable();
         if (!$exception instanceof HttpException) {
-            $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST));
+            $this->handleNonHttpException($event);
 
             return;
         }
+        $this->handleHttpException($event);
+
+    }
+
+    private function handleNonHttpException(ExceptionEvent $event): void
+    {
+        $exception = $event->getThrowable();
+        $exceptionClass = $exception::class;
+        match($exceptionClass) {
+            \OverflowException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST)),
+            \ValueError::class => $event->setResponse(new JsonResponse(['error' => 'Input numbers cannot be processed because it could go beyond maximum computational allowance'], Response::HTTP_BAD_REQUEST)),
+            default => $this->onUnexpectedError($event, $exception, $exceptionClass),
+        };
+    }
+
+    private function handleHttpException(ExceptionEvent $event): void
+    {
+        $exception = $event->getThrowable();
         $previous = $exception->getPrevious();
         if (null === $previous) {
             $event->setResponse(new JsonResponse(['error' => 'An error has been occurred'], Response::HTTP_INTERNAL_SERVER_ERROR));
@@ -41,7 +59,7 @@ class ExceptionListener
 
         match ($previous::class) {
             ValidationFailedException::class => $event->setResponse($this->onValidationError($previous)),
-            ResourceNotFoundException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND)),
+            ResourceNotFoundException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage(), 'class' => $exception::class], Response::HTTP_NOT_FOUND)),
             default => $this->onUnexpectedError($event, $previous, $previous::class),
         };
     }
@@ -62,6 +80,6 @@ class ExceptionListener
             'exceptionClass' => $exceptionClass,
             'message' => $exception->getMessage(),
         ]);
-        $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR));
+        $event->setResponse(new JsonResponse(['error' => 'An unexpected error occurred'], Response::HTTP_INTERNAL_SERVER_ERROR));
     }
 }

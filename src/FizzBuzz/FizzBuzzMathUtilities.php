@@ -27,6 +27,26 @@ class FizzBuzzMathUtilities
      */
     public static function lcm(int $int1, int $int2): int
     {
+        self::verifyIntInputsOrDie($int1, $int2);
+
         return ($int1 * $int2) / self::gcd($int1, $int2);
+    }
+
+    /**
+     * Guard utility that verifies $int1 and $int2 are valid by:
+     * * Checking both are greater than 0
+     * * They and their computations are under PHP_INT_MAX to avoid overflow or silent float casts.
+     */
+    private static function verifyIntInputsOrDie(int $int1, int $int2): void
+    {
+        if ($int1 <= 0 || $int2 <= 0) {
+            throw new \InvalidArgumentException('int1 and int2 must be both greater than 0');
+        }
+
+        // Catch silent float cast due to overflow in PHP_INT_MAX.
+        if ($int1 > PHP_INT_MAX / $int2) {
+            throw new \OverflowException('int1 and int2 cannot be used to generate a fizzbuzz list. Select lower numbers than those ones.');
+        }
+
     }
 }
