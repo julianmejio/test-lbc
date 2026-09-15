@@ -36,12 +36,14 @@ class FizzBuzzGenerator implements FizzBuzzGeneratorInterface
      */
     private function transform(int $listItem, int $int1, int $int2, string $str1, string $str2): string
     {
+        $lcm = FizzBuzzMathUtilities::lcm($int1, $int2);
+
         return match (true) {
 
             // List of transformation cases.
 
             // Case 1: Multiples of $int1 * $int2 are replaced by "$str1$str2"
-            0 === $listItem % ($int1 * $int2) => "{$str1}{$str2}",
+            0 === $listItem % $lcm => "{$str1}{$str2}",
 
             // Case 2: Multiples of $int1 are replaced by $str1
             0 === $listItem % $int1 => $str1,

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Stats\UrlStats;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
@@ -29,7 +28,7 @@ final class StatsController extends AbstractController
     {
         $stats = $this->stats->getMostPopularUrl();
         if (null === $stats) {
-            return new JsonResponse(null, Response::HTTP_OK);
+            return new Response('{}', Response::HTTP_OK, ['Content-Type' => 'application/json']);
         }
 
         return new Response($this->serializer->serialize($stats, 'json'), Response::HTTP_OK, ['Content-Type' => 'application/json']);
