@@ -1,6 +1,6 @@
 {
-    "name": "julianmejio/lbc-fizzbuzztest",
-    "description": "API that generates fizzbuzz list and provides stats for the most popular",
+    "name": "julianmejio/test-lbc",
+    "description": "This project has the intention of solving a fizzbuzz challenge described in a take home test",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
