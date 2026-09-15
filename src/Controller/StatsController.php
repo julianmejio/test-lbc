@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * Controller that exposes the stats of the API's FizzBuzz endpoint.
+ */
 #[Route('/stats', name: 'stats')]
 final class StatsController extends AbstractController
 {

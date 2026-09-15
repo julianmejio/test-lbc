@@ -3,10 +3,13 @@
 namespace App\FizzBuzz;
 
 /**
- * Implementation of a FizzBuzz list.
+ * Implementation of a FizzBuzz generator list.
  */
 class FizzBuzzGenerator implements FizzBuzzGeneratorInterface
 {
+    /**
+     * First number of the generated list.
+     */
     private const int LIST_START = 1;
 
     public function generate(int $int1, int $int2, int $limit, string $str1, string $str2): array

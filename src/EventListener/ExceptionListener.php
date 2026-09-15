@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,15 @@ use Symfony\Component\Validator\Exception\ValidationFailedException;
 #[AsEventListener(event: KernelEvents::EXCEPTION, method: 'onKernelException')]
 class ExceptionListener
 {
+    public function __construct(private readonly LoggerInterface $logger)
+    {
+    }
+
+    /**
+     * Handles exception and converts them into JSON-compatible messages with proper HTTP status codes.
+     *
+     * @param ExceptionEvent $event exception thrown by the kernel
+     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
@@ -32,7 +42,7 @@ class ExceptionListener
         match ($previous::class) {
             ValidationFailedException::class => $event->setResponse($this->onValidationError($previous)),
             ResourceNotFoundException::class => $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND)),
-            default => $event->setResponse(new JsonResponse(['error' => $exception->getMessage(), 'class' => $previous::class], Response::HTTP_INTERNAL_SERVER_ERROR)),
+            default => $this->onUnexpectedError($event, $previous, $previous::class),
         };
     }
 
@@ -44,5 +54,14 @@ class ExceptionListener
         }
 
         return new JsonResponse(['error' => 'Parameters for Fizzbuzz list are invalid. Fix the violations and try again.', 'violations' => $violations], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function onUnexpectedError(ExceptionEvent $event, \Throwable $exception, string $exceptionClass): void
+    {
+        $this->logger->error('Unexpected error happened', [
+            'exceptionClass' => $exceptionClass,
+            'message' => $exception->getMessage(),
+        ]);
+        $event->setResponse(new JsonResponse(['error' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR));
     }
 }
